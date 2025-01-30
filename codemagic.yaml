@@ -3,7 +3,6 @@ workflows:
     name: thaimon2025
     environment:
       xcode: latest
-      ruby: system
     scripts:
       - name: Install unrar
         script: |
