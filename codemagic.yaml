@@ -28,7 +28,12 @@ workflows:
           FILE_ID="1z1LGmzuQoxk5cHsyf6T4aRBnzEFfUHQf"
           FILE_NAME="MyLuaGame.rar"
           CONFIRM=$(curl -sc /tmp/gcookie "https://drive.google.com/uc?export=download&id=${FILE_ID}" | grep -o 'confirm=[^&]*' | cut -d= -f2)
-          curl -Lb /tmp/gcookie "https://drive.google.com/uc?export=download&confirm=${CONFIRM}&id=${FILE_ID}" -o ${FILE_NAME}
+          wget --no-check-certificate "https://drive.google.com/uc?export=download&confirm=${CONFIRM}&id=${FILE_ID}" -O ${FILE_NAME}
+
+          echo "✅ ตรวจสอบไฟล์ที่โหลดมา:"
+          ls -lah ${FILE_NAME}
+          file ${FILE_NAME}  # ตรวจสอบว่าไฟล์เป็น .rar จริงหรือไม่
+
           mkdir -p game_project
           cd game_project
           unrar x -o+ ../MyLuaGame.rar
