@@ -21,12 +21,14 @@ workflows:
           brew update
           brew install wget
           brew install rar
-          pip3 install gdown
           pip3 install lz4 numpy xlrd cython six
 
       - name: Download Project from Google Drive
         script: |
-          gdown --id 1z1LGmzuQoxk5cHsyf6T4aRBnzEFfUHQf -O MyLuaGame.rar
+          FILE_ID="1z1LGmzuQoxk5cHsyf6T4aRBnzEFfUHQf"
+          FILE_NAME="MyLuaGame.rar"
+          CONFIRM=$(curl -sc /tmp/gcookie "https://drive.google.com/uc?export=download&id=${FILE_ID}" | grep -o 'confirm=[^&]*' | cut -d= -f2)
+          curl -Lb /tmp/gcookie "https://drive.google.com/uc?export=download&confirm=${CONFIRM}&id=${FILE_ID}" -o ${FILE_NAME}
           mkdir -p game_project
           cd game_project
           unrar x -o+ ../MyLuaGame.rar
@@ -34,7 +36,7 @@ workflows:
       - name: Build iOS IPA
         script: |
           cd $PROJ_DIR
-          python3 ../../cocos2d-x/tools/cocos2d-console/bin/cocos.py deploy -p ios -m release -j8
+          python3 game_project/MyLuaGame/frameworks/cocos2d-x/tools/cocos2d-console/bin/cocos.py deploy -p ios -m release -j8
           
     artifacts:
       - build/ios/*.ipa
