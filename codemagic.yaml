@@ -26,7 +26,13 @@ workflows:
 
       - name: Download Project from Google Drive
         script: |
-          gdown "https://drive.google.com/uc?id=1z1LGmzuQoxk5cHsyf6T4aRBnzEFfUHQf&confirm=t" -O MyLuaGame.rar
+          echo "✅ ติดตั้ง Google Drive API CLI"
+          curl -L -o /usr/local/bin/gdrive "https://github.com/prasmussen/gdrive/releases/latest/download/gdrive-linux-x64"
+          chmod +x /usr/local/bin/gdrive
+
+          echo "✅ ดาวน์โหลดไฟล์จาก Google Drive"
+          gdrive download --id 1z1LGmzuQoxk5cHsyf6T4aRBnzEFfUHQf --force
+          
           echo "✅ ตรวจสอบไฟล์ที่โหลดมา:"
           ls -lah MyLuaGame.rar
           file MyLuaGame.rar
