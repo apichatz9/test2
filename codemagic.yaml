@@ -1,12 +1,17 @@
 workflows:
   ios-app:
-    name: iOS App Build
+    name: thaimon2025
     environment:
       xcode: latest
     scripts:
       - name: Install unrar
-        script: |
-          brew install unrar
+		  script: |
+			if command -v apt-get &> /dev/null; then
+			  sudo apt-get update
+			  sudo apt-get install -y unrar
+			else
+			  echo "Skipping unrar installation, it may already be installed."
+			fi
       - name: Download Project from Google Drive
         script: |
           wget --no-check-certificate "https://drive.google.com/uc?export=download&id=1z1LGmzuQoxk5cHsyf6T4aRBnzEFfUHQf" -O MyLuaGame.rar
