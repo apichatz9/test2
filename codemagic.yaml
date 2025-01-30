@@ -3,25 +3,38 @@ workflows:
     name: thaimon2025
     environment:
       xcode: latest
+      cocoapods: default
+      vars:
+        PROJ_DIR: "game_project/MyLuaGame/frameworks/pokemon_proj_tc_qd/proj.ios_mac"
+        COCOS_CONSOLE: "game_project/MyLuaGame/frameworks/cocos2d-x/tools/cocos2d-console/bin/cocos.py"
+
     scripts:
+      - name: Set up Xcode and Python
+        script: |
+          sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+          python3 -m pip install --upgrade pip
+          python3 -m pip install setuptools six
+          echo "Xcode and Python setup complete!"
+
       - name: Install dependencies
         script: |
           brew update
           brew install wget
           brew install rar
-          pip install gdown
-          
+          pip3 install gdown
+          pip3 install lz4 numpy xlrd cython six
+
       - name: Download Project from Google Drive
         script: |
           gdown --id 1z1LGmzuQoxk5cHsyf6T4aRBnzEFfUHQf -O MyLuaGame.rar
           mkdir -p game_project
           cd game_project
           unrar x -o+ ../MyLuaGame.rar
-          
+
       - name: Build iOS IPA
         script: |
-          cd game_project/MyLuaGame/frameworks/pokemon_proj_tc_qd/proj.ios_mac
-          python ../../../bin/cocos.py deploy -p ios -m release
+          cd $PROJ_DIR
+          python3 ../../cocos2d-x/tools/cocos2d-console/bin/cocos.py deploy -p ios -m release -j8
           
     artifacts:
       - build/ios/*.ipa
