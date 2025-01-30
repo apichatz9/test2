@@ -21,18 +21,15 @@ workflows:
           brew update
           brew install wget
           brew install rar
+          pip3 install --upgrade gdown
           pip3 install lz4 numpy xlrd cython six
 
       - name: Download Project from Google Drive
         script: |
-          FILE_ID="1z1LGmzuQoxk5cHsyf6T4aRBnzEFfUHQf"
-          FILE_NAME="MyLuaGame.rar"
-          CONFIRM=$(curl -sc /tmp/gcookie "https://drive.google.com/uc?export=download&id=${FILE_ID}" | grep -o 'confirm=[^&]*' | cut -d= -f2)
-          wget --no-check-certificate "https://drive.google.com/uc?export=download&confirm=${CONFIRM}&id=${FILE_ID}" -O ${FILE_NAME}
-
+          gdown "https://drive.google.com/uc?id=1z1LGmzuQoxk5cHsyf6T4aRBnzEFfUHQf&confirm=t" -O MyLuaGame.rar
           echo "✅ ตรวจสอบไฟล์ที่โหลดมา:"
-          ls -lah ${FILE_NAME}
-          file ${FILE_NAME}  # ตรวจสอบว่าไฟล์เป็น .rar จริงหรือไม่
+          ls -lah MyLuaGame.rar
+          file MyLuaGame.rar
 
           mkdir -p game_project
           cd game_project
