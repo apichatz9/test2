@@ -8,14 +8,14 @@ workflows:
         script: |
           brew update
           brew install wget
-          brew install unrar
+          brew install rar
           pip install gdown
           
       - name: Download Project from Google Drive
         script: |
           gdown --id 1z1LGmzuQoxk5cHsyf6T4aRBnzEFfUHQf -O MyLuaGame.rar
           mkdir -p game_project
-          unrar x MyLuaGame.rar game_project/
+          tar -xvf MyLuaGame.rar -C game_project/ || unrar x MyLuaGame.rar game_project/
           
       - name: Build iOS IPA
         script: |
