@@ -3,7 +3,6 @@ workflows:
     name: iOS App Build
     environment:
       xcode: latest
-      ruby: system
     scripts:
       - name: Install unrar
         script: |
