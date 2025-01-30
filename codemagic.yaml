@@ -8,8 +8,8 @@ workflows:
         script: |
           brew install unrar || true
 	  - name: Install wget
-        script: |
-          brew install wget || true
+  script: |
+    brew install wget || true
       - name: Download Project from Google Drive
         script: |
           wget --no-check-certificate "https://drive.google.com/uc?export=download&id=1z1LGmzuQoxk5cHsyf6T4aRBnzEFfUHQf" -O MyLuaGame.rar
