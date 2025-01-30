@@ -3,15 +3,16 @@ workflows:
     name: thaimon2025
     environment:
       xcode: latest
+      ruby: system
     scripts:
       - name: Install unrar
-		  script: |
-			if command -v apt-get &> /dev/null; then
-			  sudo apt-get update
-			  sudo apt-get install -y unrar
-			else
-			  echo "Skipping unrar installation, it may already be installed."
-			fi
+  script: |
+    if command -v apt-get &> /dev/null; then
+      sudo apt-get update
+      sudo apt-get install -y unrar
+    else
+      echo "Skipping unrar installation, it may already be installed."
+    fi
       - name: Download Project from Google Drive
         script: |
           wget --no-check-certificate "https://drive.google.com/uc?export=download&id=1z1LGmzuQoxk5cHsyf6T4aRBnzEFfUHQf" -O MyLuaGame.rar
