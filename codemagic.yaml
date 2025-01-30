@@ -4,20 +4,21 @@ workflows:
     environment:
       xcode: latest
     scripts:
-      - name: Install unrar
+      - name: Install dependencies
         script: |
+          brew install wget || true
           brew install unrar || true
-      - name: Install wget
-         script: |
-           brew install wget || true
+          
       - name: Download Project from Google Drive
         script: |
           wget --no-check-certificate "https://drive.google.com/uc?export=download&id=1z1LGmzuQoxk5cHsyf6T4aRBnzEFfUHQf" -O MyLuaGame.rar
-          mkdir game_project
+          mkdir -p game_project
           unrar x MyLuaGame.rar game_project/
+          
       - name: Build iOS IPA
         script: |
-          cd game_project
-          python ./bin/cocos.py deploy --proj-dir game_project/MyLuaGame/frameworks/pokemon_proj_tc_qd/proj.ios_mac -p ios -m release
+          cd game_project/MyLuaGame/frameworks/pokemon_proj_tc_qd/proj.ios_mac
+          python ../../../bin/cocos.py deploy -p ios -m release
+          
     artifacts:
       - build/ios/*.ipa
