@@ -21,7 +21,8 @@ workflows:
           brew update
           brew install wget
           brew install rar
-          brew install python@2  # ติดตั้ง python2 เพื่อรองรับ cocos.py
+          brew install python@2  # ติดตั้ง Python 2
+          ln -s /usr/local/bin/python2.7 /usr/local/bin/python2 || true  # สร้าง symlink
           pip3 install gdown
           pip3 install lz4 numpy xlrd cython six
 
@@ -34,6 +35,8 @@ workflows:
 
       - name: Build iOS IPA
         script: |
+          which python2  # ตรวจสอบว่า Python 2 มีอยู่จริงหรือไม่
+          python2 --version  # ตรวจสอบเวอร์ชัน Python 2
           cd $PROJ_DIR
           python2 ../../cocos2d-x/tools/cocos2d-console/bin/cocos.py deploy -p ios -m release -j8
           
