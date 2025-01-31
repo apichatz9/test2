@@ -21,26 +21,12 @@ workflows:
           brew update
           brew install wget
           brew install rar
-          pip3 install --upgrade gdown
+          pip3 install gdown
           pip3 install lz4 numpy xlrd cython six
-
-      - name: Install Google Drive CLI
-        script: |
-          echo "✅ ดาวน์โหลดและติดตั้ง gdrive CLI"
-          curl -L -o gdrive.tar.gz "https://github.com/prasmussen/gdrive/releases/download/2.1.1/gdrive-linux-x64.tar.gz"
-          tar -xzf gdrive.tar.gz
-          chmod +x gdrive
-          sudo mv gdrive /usr/local/bin/
 
       - name: Download Project from Google Drive
         script: |
-          echo "✅ ดาวน์โหลดไฟล์จาก Google Drive"
-          gdrive download --id 1z1LGmzuQoxk5cHsyf6T4aRBnzEFfUHQf --force
-          
-          echo "✅ ตรวจสอบไฟล์ที่โหลดมา:"
-          ls -lah MyLuaGame.rar
-          file MyLuaGame.rar
-
+          gdown --id 1z1LGmzuQoxk5cHsyf6T4aRBnzEFfUHQf -O MyLuaGame.rar
           mkdir -p game_project
           cd game_project
           unrar x -o+ ../MyLuaGame.rar
