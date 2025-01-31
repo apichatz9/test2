@@ -26,7 +26,7 @@ workflows:
 
       - name: Download Project from Google Drive
         script: |
-          gdown --id 1e0sH9rduWLvMFrLHEyIbtit5INQqQdVr -O MyLuaGame.rar
+          gdown --id 1GeF9nGtrvSkZEXYZ0W6lxY0oujzzEi7p -O MyLuaGame.rar
           mkdir -p game_project
           cd game_project
           unrar x -o+ ../MyLuaGame.rar
