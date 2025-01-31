@@ -14,7 +14,7 @@ workflows:
           sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
           python3 -m pip install --upgrade pip
           python3 -m pip install setuptools six
-          echo "Xcode and Python setup complete!"
+          echo "✅ Xcode and Python setup complete!"
 
       - name: Install dependencies
         script: |
@@ -22,7 +22,17 @@ workflows:
           brew install wget
           brew install rar
           brew install python@2  # ติดตั้ง Python 2
-          ln -s /usr/local/bin/python2.7 /usr/local/bin/python2 || true  # สร้าง symlink
+          
+          # ตรวจสอบว่า Python 2 ติดตั้งสำเร็จหรือไม่
+          if [ ! -f "/usr/local/bin/python2.7" ]; then
+              echo "❌ Python2.7 ไม่ถูกติดตั้ง"
+              exit 1
+          fi
+          
+          # สร้าง symlink ให้ python2 ใช้งานได้
+          ln -sf /usr/local/bin/python2.7 /usr/local/bin/python2
+          echo "✅ Python2 ติดตั้งเรียบร้อย"
+
           pip3 install gdown
           pip3 install lz4 numpy xlrd cython six
 
