@@ -21,30 +21,32 @@ workflows:
           brew update
           brew install wget
           brew install rar
-          brew install python@2  # ติดตั้ง Python 2
+          brew install pyenv  # ใช้ pyenv เพื่อติดตั้ง Python 2.7
           
+          # ติดตั้ง Python 2.7 ผ่าน pyenv
+          pyenv install 2.7.18 || true
+          pyenv global 2.7.18
+
           # ตรวจสอบว่า Python 2 ติดตั้งสำเร็จหรือไม่
-          if [ ! -f "/usr/local/bin/python2.7" ]; then
-              echo "❌ Python2.7 ไม่ถูกติดตั้ง"
+          if ! pyenv versions | grep -q "2.7.18"; then
+              echo "❌ Python 2.7 ไม่สามารถติดตั้งได้"
               exit 1
           fi
-          
-          # สร้าง symlink ให้ python2 ใช้งานได้
-          ln -sf /usr/local/bin/python2.7 /usr/local/bin/python2
-          echo "✅ Python2 ติดตั้งเรียบร้อย"
+
+          echo "✅ Python 2.7 ติดตั้งสำเร็จ"
 
           pip3 install gdown
           pip3 install lz4 numpy xlrd cython six
 
       - name: Check Python 2 Availability
         script: |
-          if ! command -v python2 &> /dev/null
+          if ! pyenv versions | grep -q "2.7.18"
           then
               echo "❌ Python2 ไม่พร้อมใช้งาน หยุดการทำงาน"
               exit 1
           else
               echo "✅ Python2 พร้อมใช้งาน"
-              python2 --version
+              pyenv exec python2 --version
           fi
 
       - name: Download Project from Google Drive
@@ -57,7 +59,7 @@ workflows:
       - name: Build iOS IPA
         script: |
           cd $PROJ_DIR
-          python2 ../../cocos2d-x/tools/cocos2d-console/bin/cocos.py deploy -p ios -m release -j8
+          pyenv exec python2 ../../cocos2d-x/tools/cocos2d-console/bin/cocos.py deploy -p ios -m release -j8
           
     artifacts:
       - build/ios/*.ipa
