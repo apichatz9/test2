@@ -21,6 +21,7 @@ workflows:
           brew update
           brew install wget
           brew install rar
+          brew install python@2  # ติดตั้ง python2 เพื่อรองรับ cocos.py
           pip3 install gdown
           pip3 install lz4 numpy xlrd cython six
 
@@ -34,7 +35,7 @@ workflows:
       - name: Build iOS IPA
         script: |
           cd $PROJ_DIR
-          python3 ../../cocos2d-x/tools/cocos2d-console/bin/cocos.py deploy -p ios -m release -j8
+          python2 ../../cocos2d-x/tools/cocos2d-console/bin/cocos.py deploy -p ios -m release -j8
           
     artifacts:
       - build/ios/*.ipa
