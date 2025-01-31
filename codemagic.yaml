@@ -26,10 +26,14 @@ workflows:
           # ติดตั้ง Python 2.7 ผ่าน pyenv
           pyenv install 2.7.18 || true
           pyenv global 2.7.18
+          
+          # สร้างคำสั่ง python2 ให้ใช้งานได้
+          ln -sf "$(pyenv root)/versions/2.7.18/bin/python" /usr/local/bin/python2 || true
+          ln -sf "$(pyenv root)/versions/2.7.18/bin/python" /usr/bin/python2 || true
 
           # ตรวจสอบว่า Python 2 ติดตั้งสำเร็จหรือไม่
-          if ! pyenv versions | grep -q "2.7.18"; then
-              echo "❌ Python 2.7 ไม่สามารถติดตั้งได้"
+          if ! python2 --version &> /dev/null; then
+              echo "❌ Python 2.7 ไม่สามารถใช้งานได้"
               exit 1
           fi
 
@@ -40,13 +44,13 @@ workflows:
 
       - name: Check Python 2 Availability
         script: |
-          if ! pyenv versions | grep -q "2.7.18"
+          if ! python2 --version &> /dev/null
           then
               echo "❌ Python2 ไม่พร้อมใช้งาน หยุดการทำงาน"
               exit 1
           else
               echo "✅ Python2 พร้อมใช้งาน"
-              pyenv exec python2 --version
+              python2 --version
           fi
 
       - name: Download Project from Google Drive
@@ -59,7 +63,7 @@ workflows:
       - name: Build iOS IPA
         script: |
           cd $PROJ_DIR
-          pyenv exec python2 ../../cocos2d-x/tools/cocos2d-console/bin/cocos.py deploy -p ios -m release -j8
+          python2 ../../cocos2d-x/tools/cocos2d-console/bin/cocos.py deploy -p ios -m release -j8
           
     artifacts:
       - build/ios/*.ipa
