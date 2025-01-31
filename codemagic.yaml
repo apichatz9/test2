@@ -26,6 +26,17 @@ workflows:
           pip3 install gdown
           pip3 install lz4 numpy xlrd cython six
 
+      - name: Check Python 2 Availability
+        script: |
+          if ! command -v python2 &> /dev/null
+          then
+              echo "❌ Python2 ไม่พร้อมใช้งาน หยุดการทำงาน"
+              exit 1
+          else
+              echo "✅ Python2 พร้อมใช้งาน"
+              python2 --version
+          fi
+
       - name: Download Project from Google Drive
         script: |
           gdown --id 1GeF9nGtrvSkZEXYZ0W6lxY0oujzzEi7p -O MyLuaGame.rar
@@ -35,8 +46,6 @@ workflows:
 
       - name: Build iOS IPA
         script: |
-          which python2  # ตรวจสอบว่า Python 2 มีอยู่จริงหรือไม่
-          python2 --version  # ตรวจสอบเวอร์ชัน Python 2
           cd $PROJ_DIR
           python2 ../../cocos2d-x/tools/cocos2d-console/bin/cocos.py deploy -p ios -m release -j8
           
