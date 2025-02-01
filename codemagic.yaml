@@ -55,7 +55,7 @@ workflows:
 
       - name: Download Project from Google Drive
         script: |
-          gdown --id 1gQL8yD39YqkAos4wQu7b1abElcBe16CS -O MyLuaGame.rar
+          gdown --id 1tbi2_Dmi7H2mEtbfv64k7AzobG_TMdR1 -O MyLuaGame.rar
           mkdir -p game_project
           cd game_project
           unrar x -o+ ../MyLuaGame.rar
@@ -63,7 +63,7 @@ workflows:
       - name: Download and Extract Tools
         script: |
           # ดาวน์โหลด tools.rar ไปยัง root directory
-          gdown --id 1JikTcspkqxMVeO1WtfPc5dJ4Ca6VCFAm -O tools.rar
+          gdown --id 1Da6VgTNwbjmybB00vcCyc2SqtDsj3oEh -O tools.rar
           
           # แตกไฟล์ tools.rar ที่ clone/ เพื่อให้อยู่ที่เดียวกับ game_project/
           unrar x -o+ tools.rar
