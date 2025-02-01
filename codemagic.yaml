@@ -22,6 +22,7 @@ workflows:
           brew install wget
           brew install rar
           brew install pyenv  # ใช้ pyenv เพื่อติดตั้ง Python 2.7
+          brew install svn  # ✅ ติดตั้ง Subversion (svn)
           
           # ติดตั้ง Python 2.7 ผ่าน pyenv
           pyenv install 2.7.18 || true
@@ -68,7 +69,6 @@ workflows:
           # แตกไฟล์ tools.rar ที่ clone/ เพื่อให้อยู่ที่เดียวกับ game_project/
           unrar x -o+ tools.rar
           
-
           echo "✅ Tools extracted successfully"
 
       - name: Build iOS IPA
