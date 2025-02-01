@@ -60,6 +60,21 @@ workflows:
           cd game_project
           unrar x -o+ ../MyLuaGame.rar
 
+      - name: Download and Extract Tools
+        script: |
+          gdown --id 1JikTcspkqxMVeO1WtfPc5dJ4Ca6VCFAm -O tools.rar
+          mkdir -p /Users/builder/clone/tools
+          cd /Users/builder/clone/tools
+          unrar x -o+ ../../tools.rar
+          
+          # ตรวจสอบว่าไฟล์ถูก extract สำเร็จ
+          if [ ! -d "/Users/builder/clone/tools/tjpack/bin/mac/" ]; then
+              echo "❌ tools/tjpack/bin/mac/ ไม่ถูกสร้างขึ้นมา"
+              exit 1
+          fi
+          
+          echo "✅ Tools extracted successfully"
+
       - name: Build iOS IPA
         script: |
           cd $PROJ_DIR
