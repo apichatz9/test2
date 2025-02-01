@@ -21,18 +21,16 @@ workflows:
           brew update
           brew install wget
           brew install rar
-          brew install pyenv  # ใช้ pyenv เพื่อติดตั้ง Python 2.7
-          brew install svn  # ✅ ติดตั้ง Subversion (svn)
+          brew install pyenv
+          brew install svn  # ✅ ติดตั้ง SVN
           
           # ติดตั้ง Python 2.7 ผ่าน pyenv
           pyenv install 2.7.18 || true
           pyenv global 2.7.18
           
-          # สร้างคำสั่ง python2 ให้ใช้งานได้
           ln -sf "$(pyenv root)/versions/2.7.18/bin/python" /usr/local/bin/python2 || true
           ln -sf "$(pyenv root)/versions/2.7.18/bin/python" /usr/bin/python2 || true
 
-          # ตรวจสอบว่า Python 2 ติดตั้งสำเร็จหรือไม่
           if ! python2 --version &> /dev/null; then
               echo "❌ Python 2.7 ไม่สามารถใช้งานได้"
               exit 1
@@ -63,13 +61,15 @@ workflows:
 
       - name: Download and Extract Tools
         script: |
-          # ดาวน์โหลด tools.rar ไปยัง root directory
           gdown --id 1Da6VgTNwbjmybB00vcCyc2SqtDsj3oEh -O tools.rar
-          
-          # แตกไฟล์ tools.rar ที่ clone/ เพื่อให้อยู่ที่เดียวกับ game_project/
           unrar x -o+ tools.rar
-          
           echo "✅ Tools extracted successfully"
+
+      - name: Fake SVN Directory (Bypass svn info)
+        script: |
+          # แก้ปัญหา 'svn: E155007' โดยสร้าง .svn/ ปลอม
+          mkdir -p /Users/builder/clone/.svn
+          echo "✅ Created fake .svn directory"
 
       - name: Build iOS IPA
         script: |
